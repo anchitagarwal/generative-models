@@ -1,2 +1,2 @@
 # generative-models
-Collection of various flavors of GAN's on TensorFlow.
+Collection of various flavors of GAN on TensorFlow.
