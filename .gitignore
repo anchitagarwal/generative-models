@@ -2,3 +2,5 @@ MNIST_data/
 out/
 
 *.pyc
+lsun_download.py
+data.py
