@@ -34,16 +34,16 @@ class Generator:
 				outputs = tf.layers.dense(inputs, self.depths[0] * self.s_size * self.s_size)
 				outputs = tf.reshape(outputs, [-1, self.s_size, self.s_size, self.depths[0]])
 				outputs = tf.nn.relu(
-								tf.layers.batch_normalization(outputs, training=training),
-								name='outputs')
+					tf.layers.batch_normalization(outputs, training=training),
+					name='outputs')
 
 			# transposed convolutions x 4
 			with tf.variable_scope('deconv1'):
 				outputs = tf.layers.conv2d_transpose(outputs,
-													filters=self.depths[1],
-													kernel_size=[5,5],
-													strides=[2,2],
-													padding="same")
+					filters=self.depths[1],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = tf.nn.relu(
 										tf.layers.batch_normalization(outputs, training=training),
 										name="outputs")
