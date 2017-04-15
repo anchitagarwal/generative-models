@@ -1,5 +1,7 @@
 MNIST_data/
 out/
+logdir/
+images/
 
 *.pyc
 lsun_download.py

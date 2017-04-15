@@ -179,7 +179,7 @@ class Discriminator:
 			with tf.variable_scope('classify'):
 				batch_size = outputs.get_shape()[0].value
 				reshape = tf.reshape(outputs, [batch_size, -1])
-				outputs = tf.layer.dense(reshape, 2, name='outputs')
+				outputs = tf.layers.dense(reshape, 2, name='outputs')
 
 		self.reuse = True
 		self.variables = tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES, scope='d')
@@ -230,21 +230,21 @@ class DCGAN:
 			'g_losses',
 			tf.reduce_mean(
 				tf.nn.sparse_softmax_cross_entropy_with_logits(
-					labels=tf.ones_like(g_outputs),
+					labels=tf.ones([self.batch_size], dtype=tf.int64),
 					logits=g_outputs)))
 
 		tf.add_to_collection(
 			'd_losses',
 			tf.reduce_mean(
 				tf.nn.sparse_softmax_cross_entropy_with_logits(
-					labels=tf.zeros_like(g_outputs),
+					labels=tf.zeros([self.batch_size], dtype=tf.int64),
 					logits=g_outputs)))
 
 		tf.add_to_collection(
 			'd_losses',
 			tf.reduce_mean(
 				tf.nn.sparse_softmax_cross_entropy_with_logits(
-					labels=tf.ones_like(t_outputs),
+					labels=tf.ones([self.batch_size], dtype=tf.int64),
 					logits=t_outputs)))
 
 		return {
@@ -283,8 +283,8 @@ class DCGAN:
 		Returns:
 			8x8 grid of generated images
 		"""
-		if input is None:
-			input = self.z
+		if inputs is None:
+			inputs = self.z
 		images = self.g(inputs, training=True)
 		images = tf.image.convert_image_dtype(tf.div(tf.add(images, 1.0), 2.0), tf.uint8)
 		images = [image for image in tf.split(images, self.batch_size, axis=0)]
