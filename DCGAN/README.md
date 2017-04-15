@@ -4,7 +4,6 @@ The project is the TensorFlow implementation of [Deep Convolutional Generative A
 
 ## Results
 **LSUN**
-
 [Large-scale Scene Understanding](http://www.yf.io/p/lsun)
 
 ![DCGAN experiment 1](/assets/dcgan_exp_1.jpg)
