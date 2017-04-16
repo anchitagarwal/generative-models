@@ -72,6 +72,7 @@ def read_celeb(filename_queue):
 	_, image_file = image_reader.read(filename_queue)
 	# decode the image as a JPEG
 	image = tf.image.decode_png(image_file)
+	image = tf.image.resize_images(image, [109, 89])
 	image = tf.image.resize_image_with_crop_or_pad(image, CROP_IMAGE_SIZE, CROP_IMAGE_SIZE)
 	return tf.reshape(image, [CROP_IMAGE_SIZE, CROP_IMAGE_SIZE, 3])
 
