@@ -11,6 +11,7 @@ The training visualized:
 
 ![CelebA GIF](/assets/celeb.gif)
 
+
 DCGAN results on vanialla run:
 
 ![CelebA Experiment 1](/assets/23200.jpg)
