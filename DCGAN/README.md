@@ -3,6 +3,16 @@ The project is the TensorFlow implementation of [Deep Convolutional Generative A
 ![DCGAN](https://github.com/carpedm20/DCGAN-tensorflow/blob/master/DCGAN.png)
 
 ## Results
+**CelebA**
+
+[Large-scale CelebFaces Attributes (CelebA) Dataset](http://mmlab.ie.cuhk.edu.hk/projects/CelebA.html)
+
+The training visualized:
+![CelebA GIF](/assets/celeb.gif)
+
+DCGAN results on vanialla run:
+![CelebA Experiment 1](/assets/23200.jpg)
+
 **LSUN**
 
 [Large-scale Scene Understanding](http://www.yf.io/p/lsun)
