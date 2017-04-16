@@ -34,50 +34,47 @@ class Generator:
 				outputs = tf.layers.dense(inputs, self.depths[0] * self.s_size * self.s_size)
 				outputs = tf.reshape(outputs, [-1, self.s_size, self.s_size, self.depths[0]])
 				outputs = tf.nn.relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name='outputs')
+					tf.layers.batch_normalization(outputs, training=training),
+					name='outputs')
 
 			# transposed convolutions x 4
 			with tf.variable_scope('deconv1'):
 				outputs = tf.layers.conv2d_transpose(
-										outputs,
-										filters=self.depths[1],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[1],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = tf.nn.relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training), name="outputs")
 
 			with tf.variable_scope('deconv2'):
 				outputs = tf.layers.conv2d_transpose(
-										outputs,
-										filters=self.depths[2],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[2],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = tf.nn.relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training), name="outputs")
 
 			with tf.variable_scope('deconv3'):
 				outputs = tf.layers.conv2d_transpose(
-										outputs,
-										filters=self.depths[3],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[3],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = tf.nn.relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training), name="outputs")
 
 			with tf.variable_scope('deconv4'):
 				outputs = tf.layers.conv2d_transpose(
-										outputs,
-										filters=self.depths[4],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[4],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 			
 			# output images
 			with tf.variable_scope('tanh'):
@@ -134,47 +131,43 @@ class Discriminator:
 			# colvolution x 4
 			with tf.variable_scope('conv1'):
 				outputs = tf.layers.conv2d(
-										outputs,
-										filters=self.depths[1],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[1],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = leaky_relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training), name="outputs")
 
 			with tf.variable_scope('conv2'):
 				outputs = tf.layers.conv2d(
-										outputs,
-										filters=self.depths[2],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[2],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = leaky_relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training), name="outputs")
 
 			with tf.variable_scope('conv3'):
 				outputs = tf.layers.conv2d(
-										outputs,
-										filters=self.depths[3],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[3],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = leaky_relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training),name="outputs")
 
 			with tf.variable_scope('conv4'):
 				outputs = tf.layers.conv2d(
-										outputs,
-										filters=self.depths[4],
-										kernel_size=[5,5],
-										strides=[2,2],
-										padding="same")
+					outputs,
+					filters=self.depths[4],
+					kernel_size=[5,5],
+					strides=[2,2],
+					padding="same")
 				outputs = leaky_relu(
-										tf.layers.batch_normalization(outputs, training=training),
-										name="outputs")
+					tf.layers.batch_normalization(outputs, training=training), name="outputs")
 
 			with tf.variable_scope('classify'):
 				batch_size = outputs.get_shape()[0].value
@@ -228,24 +221,18 @@ class DCGAN:
 		# add each losses to collection
 		tf.add_to_collection(
 			'g_losses',
-			tf.reduce_mean(
-				tf.nn.sparse_softmax_cross_entropy_with_logits(
-					labels=tf.ones([self.batch_size], dtype=tf.int64),
-					logits=g_outputs)))
+			tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+				labels=tf.ones([self.batch_size], dtype=tf.int64),logits=g_outputs)))
 
 		tf.add_to_collection(
 			'd_losses',
-			tf.reduce_mean(
-				tf.nn.sparse_softmax_cross_entropy_with_logits(
-					labels=tf.zeros([self.batch_size], dtype=tf.int64),
-					logits=g_outputs)))
+			tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+				labels=tf.zeros([self.batch_size], dtype=tf.int64),logits=g_outputs)))
 
 		tf.add_to_collection(
 			'd_losses',
-			tf.reduce_mean(
-				tf.nn.sparse_softmax_cross_entropy_with_logits(
-					labels=tf.ones([self.batch_size], dtype=tf.int64),
-					logits=t_outputs)))
+			tf.reduce_mean(tf.nn.sparse_softmax_cross_entropy_with_logits(
+				labels=tf.ones([self.batch_size], dtype=tf.int64),logits=t_outputs)))
 
 		return {
 			self.g: tf.add_n(tf.get_collection('g_losses'), name='total_g_losses'),

@@ -71,8 +71,8 @@ def main(argv=None):
 
 		# setup for monitoring
 		sample_z = sess.run(tf.random_uniform([dcgan.batch_size, dcgan.z_dim],
-												minval=-1.0,
-												maxval=1.0))
+			minval=-1.0,
+			maxval=1.0))
 		images = dcgan.sample_images(inputs=sample_z)
 
 		# start training
@@ -83,7 +83,7 @@ def main(argv=None):
 			_, g_loss, d_loss = sess.run([train_op, losses[dcgan.g], losses[dcgan.d]])
 			duration = time.time() - start_time
 			print('{}: step {:5d}, loss = (G: {:.8f}, D: {:.8f}) ({:.3f} sec/batch)'.format(
-													datetime.now(), step, g_loss, d_loss, duration))
+				datetime.now(), step, g_loss, d_loss, duration))
 
 			# save generated images
 			if step % 100 == 0:
