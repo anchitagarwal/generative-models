@@ -46,7 +46,7 @@ def main(argv=None):
 	# train and summary
 	tf.summary.scalar('g_loss', losses[dcgan.g])
 	tf.summary.scalar('d_loss', losses[dcgan.d])
-	train_op = dcgan.train(losses, learning_rate=0.001)
+	train_op = dcgan.train(losses, learning_rate=0.0002)
 	summary_op = tf.summary.merge_all()
 
 	g_saver = tf.train.Saver(dcgan.g.variables)
